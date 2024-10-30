@@ -1,0 +1,147 @@
+@page "/workout"
+
+<PageTitle>Workout</PageTitle>
+<div class="container">
+
+    <button class="btn btn-light border  shadow mb-3" @onclick="ToggleNewWorkoutForm">
+       @if (ShowNewWorkoutForm)
+    {
+      <span>Back to Saved Workouts</span>
+    }
+    else
+    {
+        <span>New Workout</span>
+    }
+      
+        
+        </button>
+@if (ShowNewWorkoutSavedAlert)
+{
+    <div class="alert alert-info" role="alert">
+        New workout saved :)
+    </div>
+}
+
+
+
+    @if (ShowNewWorkoutForm){
+        <div class="card" style="width: 15rem;">
+  <div class="card-header">
+    Excersises  
+@if (NewWorkout.Count >=1){
+    <button class="btn btn-secondary " @onclick="HandlerClearNewWorkout">Clear</button>
+}else{
+    <p class="text-primary font-bold capitalize">Select a excersie below</p>
+}
+
+
+
+  </div>
+  <ul class="list-group list-group-flush">
+       @foreach (var workout in NewWorkout)
+                {
+                    <li class="list-group-item">@workout.Name @workout.Duration X 8-12</li>
+                }
+  </ul>
+  
+</div>
+<button class="btn btn-primary my-3" @onclick="HandleSaveNewWorkout">Save Workout</button>
+ <br>
+        
+<div class="row">
+    @for (int i = 0; i < workouts.Length; i++)
+    {
+        var currentWorkout = workouts[i];
+        
+        <div class="col-lg-6 col-md-6 mb-4 cursor-pointer">
+            <div class="card h-0">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h5 class="card-title">@currentWorkout.Name</h5>
+                        <p class="mx-3 text-muted text-xs">
+                            @currentWorkout.Duration Sets X 8-12
+                        </p>
+                    </div>
+                    <p class="card-text bold">
+                        @currentWorkout.Desc
+                    </p>
+                    <a class="btn btn-secondary" @onclick="() => HandleAddToNewWorkout(currentWorkout)">
+                        Add to Workout
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+    }
+</div>
+
+
+@code {
+private bool ShowNewWorkoutForm;
+
+private bool ShowNewWorkoutSavedAlert = false;
+
+public async Task HandleSaveNewWorkout()
+{
+    // Clear the NewWorkout list
+    NewWorkout.Clear();
+
+    // Show the alert
+    ShowNewWorkoutSavedAlert = true;
+
+    // Trigger a UI update to show the alert immediately
+    StateHasChanged();
+
+    // Wait for 3 seconds
+    await Task.Delay(3000);
+
+    // Hide the alert
+    ShowNewWorkoutSavedAlert = false;
+
+    // Trigger another UI update to hide the alert
+    StateHasChanged();
+}
+
+
+public void HandlerClearNewWorkout(){
+    Console.WriteLine("in here boiii");
+    NewWorkout.Clear();
+}
+    private void HandleAddToNewWorkout(WorkoutClass workout)
+    {
+   NewWorkout.Add(new WorkoutClass 
+{
+    Name = workout.Name, 
+    Duration = workout.Duration, 
+    Type = "Legs", 
+    Desc = workout.Desc, 
+    InWorkout = true
+});
+    }
+   private void ToggleNewWorkoutForm()
+    {
+        ShowNewWorkoutForm = !ShowNewWorkoutForm;
+    }
+    public class WorkoutClass
+    {
+        public string Name { get; set; }
+        public int Duration { get; set; }
+        public string Type { get; set; }
+        public string Desc { get; set; }
+        public bool InWorkout { get; set; }
+    }
+
+
+
+    private List<WorkoutClass> NewWorkout = new List<WorkoutClass>();
+
+    WorkoutClass[] workouts = new WorkoutClass[]{
+new WorkoutClass{ Name = "Bench Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Chest Dips", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Incline  Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false}
+};
+
+}

@@ -1,0 +1,31 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter this testing </h1>
+
+<p role="status">Current laxxxd: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<br>
+<br>
+<p>New Name</p>
+<input @bind="name" type="text" id="fname" placeholder="Enter New Name" name="fname"><br><br>
+<!-- Button to trigger the NameChange function -->
+<button class="btn btn-primary" @onclick="NameChange">Submitss</button>
+@code {
+    private int currentCount = 0;
+    public String name = "";
+
+    // Method to handle the name change
+    public void NameChange()
+    {
+        Console.WriteLine($"Name has been changed to: {name}");
+    }
+    private void IncrementCount()
+    {
+
+        Console.WriteLine(name);
+        currentCount++;
+    }
+}
