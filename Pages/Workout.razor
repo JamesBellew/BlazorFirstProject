@@ -102,7 +102,17 @@
         
 
     }
- <p>@itemsLeft</p>
+
+
+
+
+ @if(itemsLeft ==0)
+ {<p>No Excercises Left</p>}
+ else{
+<p>@itemsLeft</p>
+ }
+
+
 </div>
 
     }
@@ -181,6 +191,7 @@ TotalNumberOfSetsInNewWorkout += workout.Duration;
 
 
     private List<WorkoutClass> NewWorkout = new List<WorkoutClass>();
+    private List<WorkoutClass> SavedWorkouts = new List<WorkoutClass>();
 
     WorkoutClass[] workouts = new WorkoutClass[]{
 new WorkoutClass{ Name = "Bench Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
