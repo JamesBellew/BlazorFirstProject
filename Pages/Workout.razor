@@ -25,11 +25,15 @@
 
 
     @if (ShowNewWorkoutForm){
-        <div class="card" style="width: 15rem;">
+        <div class="card" style="width: 22rem;">
   <div class="card-header">
     Excersises  
+@if(TotalNumberOfSetsInNewWorkout >=1){
+   <span class="ps-2 ">@TotalNumberOfSetsInNewWorkout Sets</span>
+}
+ 
 @if (NewWorkout.Count >=1){
-    <button class="btn btn-secondary " @onclick="HandlerClearNewWorkout">Clear</button>
+    <button class="btn btn-secondary ms-5" @onclick="HandlerClearNewWorkout">Clear All</button>
 }else{
     <p class="text-primary font-bold capitalize">Select a excersie below</p>
 }
@@ -40,14 +44,30 @@
   <ul class="list-group list-group-flush">
        @foreach (var workout in NewWorkout)
                 {
-                    <li class="list-group-item">@workout.Name @workout.Duration X 8-12</li>
+                    <li class="list-group-item">@workout.Name @workout.Duration Sets 8-12</li>
                 }
   </ul>
   
 </div>
+
+
+@if(NewWorkout.Count >=1){
 <button class="btn btn-primary my-3" @onclick="HandleSaveNewWorkout">Save Workout</button>
+}
+
+
+
+
+
  <br>
-        
+      <div class="btn-group mb-2 ms-0 w-full" role="group" aria-label="Basic example">
+  <button type="button" class="btn mx-1 rounded btn-secondary">Chest</button>
+  <button type="button" class="btn mx-1 rounded btn-secondary">Legs</button>
+  <button type="button" class="btn mx-1 rounded btn-secondary">Arms</button>
+</div>  
+
+<br>
+
 <div class="row">
     @for (int i = 0; i < workouts.Length; i++)
     {
@@ -81,6 +101,8 @@
 @code {
 private bool ShowNewWorkoutForm;
 
+private int TotalNumberOfSetsInNewWorkout;
+
 private bool ShowNewWorkoutSavedAlert = false;
 
 public async Task HandleSaveNewWorkout()
@@ -106,16 +128,22 @@ public async Task HandleSaveNewWorkout()
 
 
 public void HandlerClearNewWorkout(){
-    Console.WriteLine("in here boiii");
+TotalNumberOfSetsInNewWorkout =0;
     NewWorkout.Clear();
 }
+
+
+
     private void HandleAddToNewWorkout(WorkoutClass workout)
     {
+@* update the total number of sets *@
+TotalNumberOfSetsInNewWorkout += workout.Duration;
+
    NewWorkout.Add(new WorkoutClass 
 {
     Name = workout.Name, 
     Duration = workout.Duration, 
-    Type = "Legs", 
+    Type = workout.Type, 
     Desc = workout.Desc, 
     InWorkout = true
 });
@@ -140,7 +168,9 @@ public void HandlerClearNewWorkout(){
     WorkoutClass[] workouts = new WorkoutClass[]{
 new WorkoutClass{ Name = "Bench Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
-new WorkoutClass{ Name = "Chest Dips", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Chest Dips", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Squats", Duration = 4, Type = "Legs", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Incline  Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false}
 };
 

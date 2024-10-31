@@ -1029,3 +1029,4 @@ C:\Users\ciara\Documents\C#\Blazor\BlazorApp\obj\Debug\net8.0\BlazorApp.dll
 C:\Users\ciara\Documents\C#\Blazor\BlazorApp\obj\Debug\net8.0\refint\BlazorApp.dll
 C:\Users\ciara\Documents\C#\Blazor\BlazorApp\obj\Debug\net8.0\BlazorApp.pdb
 C:\Users\ciara\Documents\C#\Blazor\BlazorApp\obj\Debug\net8.0\ref\BlazorApp.dll
+C:\Users\ciara\Documents\C#\Blazor\BlazorApp\obj\Debug\net8.0\BlazorApp.sourcelink.json
