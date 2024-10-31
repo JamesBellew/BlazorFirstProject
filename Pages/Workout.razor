@@ -61,6 +61,7 @@
 
  <br>
       <div class="btn-group mb-2 ms-0 w-full" role="group" aria-label="Basic example">
+  <button type="button" class="btn mx-1 rounded btn-primary">All</button>
   <button type="button" class="btn mx-1 rounded btn-secondary">Chest</button>
   <button type="button" class="btn mx-1 rounded btn-secondary">Legs</button>
   <button type="button" class="btn mx-1 rounded btn-secondary">Arms</button>
@@ -71,9 +72,12 @@
 <div class="row">
     @for (int i = 0; i < workouts.Length; i++)
     {
-        var currentWorkout = workouts[i];
         
-        <div class="col-lg-6 col-md-6 mb-4 cursor-pointer">
+     itemsLeft+=1;
+        var currentWorkout = workouts[i];
+        if(currentWorkout.InWorkout == false){
+
+                   <div class="col-lg-6 col-md-6 mb-4 cursor-pointer">
             <div class="card h-0">
                 <div class="card-body">
                     <div class="d-flex">
@@ -91,14 +95,23 @@
                 </div>
             </div>
         </div>
+        }else{
+            itemsLeft-=1;
+        }
+
+        
+
     }
+ <p>@itemsLeft</p>
 </div>
 
     }
+
 </div>
 
 
 @code {
+     public int itemsLeft=0;
 private bool ShowNewWorkoutForm;
 
 private int TotalNumberOfSetsInNewWorkout;
@@ -130,6 +143,10 @@ public async Task HandleSaveNewWorkout()
 public void HandlerClearNewWorkout(){
 TotalNumberOfSetsInNewWorkout =0;
     NewWorkout.Clear();
+    
+foreach(var workout in workouts){
+    workout.InWorkout = false;
+}
 }
 
 
@@ -138,7 +155,7 @@ TotalNumberOfSetsInNewWorkout =0;
     {
 @* update the total number of sets *@
 TotalNumberOfSetsInNewWorkout += workout.Duration;
-
+ workout.InWorkout = !workout.InWorkout;
    NewWorkout.Add(new WorkoutClass 
 {
     Name = workout.Name, 
@@ -167,7 +184,7 @@ TotalNumberOfSetsInNewWorkout += workout.Duration;
 
     WorkoutClass[] workouts = new WorkoutClass[]{
 new WorkoutClass{ Name = "Bench Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
-new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Chest Flys Incline", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = true},
 new WorkoutClass{ Name = "Chest Dips", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Squats", Duration = 4, Type = "Legs", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
