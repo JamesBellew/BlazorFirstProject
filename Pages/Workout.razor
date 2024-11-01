@@ -27,16 +27,19 @@
     @if (ShowNewWorkoutForm){
         <div class="card" style="width: 22rem;">
   <div class="card-header">
-    Excersises  
-@if(TotalNumberOfSetsInNewWorkout >=1){
-   <span class="ps-2 ">@TotalNumberOfSetsInNewWorkout Sets</span>
-}
- 
-@if (NewWorkout.Count >=1){
-    <button class="btn btn-secondary ms-5" @onclick="HandlerClearNewWorkout">Clear All</button>
+    @if (NewWorkout.Count >=1){
+    <button class="btn btn-secondary me-2" @onclick="HandlerClearNewWorkout">Clear </button>
 }else{
     <p class="text-primary font-bold capitalize">Select a excersie below</p>
 }
+    @if(NewWorkout.Count >=1){
+        <span>@NewWorkout.Count</span>
+    } Excersises  
+@if(TotalNumberOfSetsInNewWorkout >=1){
+   <small class="ps-2 text-muted">(@TotalNumberOfSetsInNewWorkout Sets)</small> 
+}
+ 
+
 
 
 
@@ -44,7 +47,14 @@
   <ul class="list-group list-group-flush">
        @foreach (var workout in NewWorkout)
                 {
-                    <li class="list-group-item">@workout.Name @workout.Duration Sets 8-12</li>
+                    
+                    <li class="list-group-item">
+                         <button @onclick="()=>HandleRemoveWorkoutFromNewWorkout(workout)" class="btn btn-sm me-1 btn-secondary">X</button>
+                       <small class="text-muted text-small">(@workout.Type)</small>      @workout.Name @workout.Duration Sets 8-12 
+                   
+                       
+                        
+                        </li>
                 }
   </ul>
   
@@ -106,11 +116,7 @@
 
 
 
- @if(itemsLeft ==0)
- {<p>No Excercises Left</p>}
- else{
-<p>@itemsLeft</p>
- }
+
 
 
 </div>
@@ -139,16 +145,31 @@ public async Task HandleSaveNewWorkout()
     // Trigger a UI update to show the alert immediately
     StateHasChanged();
 
-    // Wait for 3 seconds
-    await Task.Delay(3000);
 
-    // Hide the alert
-    ShowNewWorkoutSavedAlert = false;
 
     // Trigger another UI update to hide the alert
     StateHasChanged();
+
+    TotalNumberOfSetsInNewWorkout=0;
+    foreach(var workout in workouts){
+    workout.InWorkout = false;
 }
 
+
+}
+public void HandleRemoveWorkoutFromNewWorkout(WorkoutClass workout){
+    Console.WriteLine(workout.Name);
+    // Remove the specific workout from NewWorkout if it exists
+    NewWorkout.RemoveAll(w => w.Name == workout.Name && w.Duration == workout.Duration);
+    @* have to add the removed workout back into the main workout list/array *@
+        var existingWorkout = workouts.FirstOrDefault(w => w.Name == workout.Name && w.Duration == workout.Duration);
+    if (existingWorkout != null)
+    {
+        existingWorkout.InWorkout = false;
+        TotalNumberOfSetsInNewWorkout=TotalNumberOfSetsInNewWorkout - existingWorkout.Duration;
+    }
+
+    }
 
 public void HandlerClearNewWorkout(){
 TotalNumberOfSetsInNewWorkout =0;
@@ -199,6 +220,11 @@ new WorkoutClass{ Name = "Chest Flys Incline", Duration = 4, Type = "Chest", Des
 new WorkoutClass{ Name = "Chest Dips", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Chest Flys", Duration = 4, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Squats", Duration = 4, Type = "Legs", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Squats", Duration = 4, Type = "Legs", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Skull Crushers", Duration = 4, Type = "Arms", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Bicep Curls", Duration = 4, Type = "Arms", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Shoulder Press", Duration = 4, Type = "Shoulders", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
+new WorkoutClass{ Name = "Arnold Press", Duration = 4, Type = "Shoulders", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false},
 new WorkoutClass{ Name = "Incline  Press", Duration = 3, Type = "Chest", Desc = " Some quick example text to build on the card title and make up the bulk of the card's content.", InWorkout = false}
 };
 
