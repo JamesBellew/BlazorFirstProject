@@ -1,8 +1,11 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using BlazorApp;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.Services.AddBlazoredLocalStorage();
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
