@@ -8,106 +8,106 @@
     <button @onclick="LoadWorkout">Load Workout</button>
     <br>
     <br>
-    
+
     <button class="btn btn-light border shadow mb-3" @onclick="ToggleNewWorkoutForm">
-       @if (ShowNewWorkoutForm)
-       {
-          <span>Back to Saved Workouts</span>
-       }
-       else
-       {
-          <span>New Workout</span>
-       }
+        @if (ShowNewWorkoutForm)
+        {
+              <span>Back to Saved Workouts</span>
+        }
+        else
+        {
+              <span>New Workout</span>
+        }
     </button>
-    
+
     @if (ShowNewWorkoutSavedAlert)
     {
-        <div class="alert alert-info" role="alert">
-            New workout saved :)
-        </div>
+            <div class="alert alert-info" role="alert">
+                New workout saved :)
+            </div>
     }
 
     @if (ShowNewWorkoutForm)
     {
-        <div class="card" style="width: 22rem;">
-            <div class="card-header">
+            <div class="card" style="width: 22rem;">
+                <div class="card-header">
                 @if (NewWorkout.Count >= 1)
                 {
-                    <button class="btn btn-secondary me-2" @onclick="HandlerClearNewWorkout">Clear </button>
+                            <button class="btn btn-secondary me-2" @onclick="HandlerClearNewWorkout">Clear </button>
                 }
                 else
                 {
-                    <p class="text-primary font-bold capitalize">Select an exercise below</p>
+                            <p class="text-primary font-bold capitalize">Select an exercise below haiii</p>
                 }
 
                 @if (NewWorkout.Count >= 1)
                 {
-                    <span>@NewWorkout.Count Exercises</span> 
+                            <span>@NewWorkout.Count Exercises</span> 
                 }
                 @if (TotalNumberOfSetsInNewWorkout >= 1)
                 {
-                    <small class="ps-2 text-muted">(@TotalNumberOfSetsInNewWorkout Sets)</small>
+                            <small class="ps-2 text-muted">(@TotalNumberOfSetsInNewWorkout Sets)</small>
                 }
-            </div>
+                </div>
 
-            <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush">
                 @foreach (var workout in NewWorkout)
                 {
-                    <li class="list-group-item">
-                        <button @onclick="()=>HandleRemoveWorkoutFromNewWorkout(workout)" class="btn btn-sm me-1 btn-secondary">X</button>
-                        <small class="text-muted text-small">(@workout.Type)</small> @workout.Name @workout.Duration Sets 8-12
-                    </li>
+                            <li class="list-group-item">
+                                <button @onclick="()=>HandleRemoveWorkoutFromNewWorkout(workout)" class="btn btn-sm me-1 btn-secondary">X</button>
+                                <small class="text-muted text-small">(@workout.Type)</small> @workout.Name @workout.Duration Sets 8-12
+                            </li>
                 }
-            </ul>
-        </div>
+                </ul>
+            </div>
 
         @if (NewWorkout.Count >= 1)
         {
-            <button class="btn btn-primary my-3" @onclick="HandleSaveNewWorkout">Save Workout</button>
+                    <button class="btn btn-primary my-3" @onclick="HandleSaveNewWorkout">Save Workout</button>
         }
 
-        <br>
-        <div class="btn-group mb-2 ms-0 w-full" role="group" aria-label="Basic example">
-            <button type="button" class="btn mx-1 rounded btn-primary">All</button>
-            <button type="button" class="btn mx-1 rounded btn-secondary">Chest</button>
-            <button type="button" class="btn mx-1 rounded btn-secondary">Legs</button>
-            <button type="button" class="btn mx-1 rounded btn-secondary">Arms</button>
-        </div>
+            <br>
+            <div class="btn-group mb-2 ms-0 w-full" role="group" aria-label="Basic example">
+                <button type="button" class="btn mx-1 rounded btn-primary">All</button>
+                <button type="button" class="btn mx-1 rounded btn-secondary">Chest</button>
+                <button type="button" class="btn mx-1 rounded btn-secondary">Legs</button>
+                <button type="button" class="btn mx-1 rounded btn-secondary">Arms</button>
+            </div>
 
-        <br>
+            <br>
 
-        <div class="row">
+            <div class="row">
             @for (int i = 0; i < workouts.Length; i++)
             {
                 itemsLeft += 1;
                 var currentWorkout = workouts[i];
                 if (currentWorkout.InWorkout == false)
                 {
-                    <div class="col-lg-6 col-md-6 mb-4 cursor-pointer">
-                        <div class="card h-0">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <h5 class="card-title">@currentWorkout.Name</h5>
-                                    <p class="mx-3 text-muted text-xs">
+                                <div class="col-lg-6 col-md-6 mb-4 cursor-pointer">
+                                    <div class="card h-0">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <h5 class="card-title">@currentWorkout.Name</h5>
+                                                <p class="mx-3 text-muted text-xs">
                                         @currentWorkout.Duration Sets X 8-12
-                                    </p>
-                                </div>
-                                <p class="card-text bold">
+                                                </p>
+                                            </div>
+                                            <p class="card-text bold">
                                     @currentWorkout.Desc
-                                </p>
-                                <a class="btn btn-secondary" @onclick="() => HandleAddToNewWorkout(currentWorkout)">
-                                    Add to Workout
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                                            </p>
+                                            <a class="btn btn-secondary" @onclick="() => HandleAddToNewWorkout(currentWorkout)">
+                                                Add to Workout
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                 }
                 else
                 {
                     itemsLeft -= 1;
                 }
             }
-        </div>
+            </div>
     }
 </div>
 
@@ -193,13 +193,13 @@
         TotalNumberOfSetsInNewWorkout += workout.Duration;
         workout.InWorkout = !workout.InWorkout;
         NewWorkout.Add(new WorkoutClass
-        {
-            Name = workout.Name,
-            Duration = workout.Duration,
-            Type = workout.Type,
-            Desc = workout.Desc,
-            InWorkout = true
-        });
+            {
+                Name = workout.Name,
+                Duration = workout.Duration,
+                Type = workout.Type,
+                Desc = workout.Desc,
+                InWorkout = true
+            });
     }
 
     private void ToggleNewWorkoutForm()
