@@ -26,7 +26,7 @@
                 New workout saved :)
             </div>
     }
-
+  
     @if (ShowNewWorkoutForm)
     {
             <div class="card" style="width: 22rem;">
@@ -59,11 +59,58 @@
                             </li>
                 }
                 </ul>
+                
             </div>
+            <div class="flex-row mt-3">
+                  <h1>All Workouts  <button @onclick="handleShowNewWorkoutForm" class="btn btn-primary ">Create your own</button></h1>
+ 
+@if(ShowNewCustomWorkoutForm == true){
+<form class="p2 text-center"
+>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="form-group">
+    <label for="formControlRange">Example Range input</label>
+    <input type="range" class="form-control-range" id="formControlRange">
+  </div>
+</form>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+  <label class="form-check-label" for="exampleRadios1">
+    Default radio
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+  <label class="form-check-label" for="exampleRadios2">
+    Second default radio
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+  <label class="form-check-label" for="exampleRadios3">
+    Disabled radio
+  </label>
+</div>
+}
+
+  </div>
 
         @if (NewWorkout.Count >= 1)
         {
-                    <button class="btn btn-primary my-3" @onclick="HandleSaveNewWorkout">Save Workout</button>
+                    <button class="btn btn-primary my-1" @onclick="HandleSaveNewWorkout">Save Workout</button>
         }
 
             <br>
@@ -110,7 +157,9 @@
             </div>
     }
 </div>
+<div>
 
+</div>
 @code {
     private string message;
 
@@ -149,7 +198,7 @@
     private int TotalNumberOfSetsInNewWorkout;
 
     private bool ShowNewWorkoutSavedAlert = false;
-
+ private bool ShowNewCustomWorkoutForm =false;
     public async Task HandleSaveNewWorkout()
     {
         NewWorkout.Clear();
@@ -164,7 +213,9 @@
 
         StateHasChanged();
     }
-
+ public void handleShowNewWorkoutForm(){
+ShowNewCustomWorkoutForm =true;
+ }
     public void HandleRemoveWorkoutFromNewWorkout(WorkoutClass workout)
     {
         NewWorkout.RemoveAll(w => w.Name == workout.Name && w.Duration == workout.Duration);
